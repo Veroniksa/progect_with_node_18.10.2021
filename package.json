@@ -1,0 +1,24 @@
+{
+  "name": "progectNode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Veroniksa/progect_with_node_18.10.2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Veroniksa/progect_with_node_18.10.2021/issues"
+  },
+  "homepage": "https://github.com/Veroniksa/progect_with_node_18.10.2021#readme",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}
