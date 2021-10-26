@@ -44,7 +44,7 @@ Promise.resolve().then(() =>
 //требуется показать сообщение о завершении его работы.
 //Важно, чтобы работа программы основывалась на событиях.
 
-//partenza node index.js 25-12-2021 10:00:00
+//partenza node index.js 12-02-2022 10:00:00
 //console.log('Tempo rimasto: ${data}' )
 //console.clear()
 //anni: 0, mese: 2, giorni: 30, ore: 10, minuti: 34, secondi 18
@@ -68,6 +68,7 @@ function temer() {
   let hours = Math.floor(dateDiff / (1000 * 60 * 60));
   let mins = Math.floor(dateDiff / (1000 * 60));
   let secs = Math.floor(dateDiff / 1000);
+  console.log(dateDiff);
 
   let y = yers;
   let mt = month - yers * 12;
@@ -76,22 +77,26 @@ function temer() {
   let m = mins - hours * 60;
   let s = secs - mins * 60;
 
-/*   console.log(
+  if(dateDiff < 0){
+    emitter.removeListener("event");
+    console.log("finish");
+    console.log(emitter.eventNames());
+    //TODO error
+  }
+
+/*   let tim = console.log(
     `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m},seconds: ${s}`
   ); */
   const run = async () => {
       await new Promise((resolve) => setInterval(resolve, 1000));
-      emitter.emit("error", new Error("woops!"));
-      emitter.on("event", console.log(
-          `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m},seconds: ${s}`
-        ));
-      run();
+      emitter.emit("event", `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m}, seconds: ${s}`);
+      //emitter.emit("error", new Error("woops!"));
+      await temer();
     };
-}
+    run();
+  }
+emitter.on("event", console.log);
+emitter.on("error", console.log);
 
-  emitter.emit("event");
-emitter.on("error", (err) => {
-  console.error("woops! there was an error");
-});
 
 temer();
