@@ -54,7 +54,7 @@ Promise.resolve().then(() =>
 //anni: 0, mese: 2, giorni: 30, ore: 10, minuti: 34, secondi 14
 //su un taimer finisce:
 //Timpo è finito!
-const EventEmitter = require("events");
+const { EventEmitter } = require("events");
 const emitter = new EventEmitter();
 
 function temer() {
@@ -68,7 +68,6 @@ function temer() {
   let hours = Math.floor(dateDiff / (1000 * 60 * 60));
   let mins = Math.floor(dateDiff / (1000 * 60));
   let secs = Math.floor(dateDiff / 1000);
-  console.log(dateDiff);
 
   let y = yers;
   let mt = month - yers * 12;
@@ -78,25 +77,22 @@ function temer() {
   let s = secs - mins * 60;
 
   if(dateDiff < 0){
-    emitter.removeListener("event");
-    console.log("finish");
-    console.log(emitter.eventNames());
-    //TODO error
+    emitter.emit("end", ("time is over!"));
+    emitter.removeAllListeners();
+    process.exit(0);
   }
 
-/*   let tim = console.log(
-    `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m},seconds: ${s}`
-  ); */
   const run = async () => {
-      await new Promise((resolve) => setInterval(resolve, 1000));
-      emitter.emit("event", `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m}, seconds: ${s}`);
-      //emitter.emit("error", new Error("woops!"));
-      await temer();
-    };
-    run();
-  }
+    await new Promise((resolve) => setInterval(resolve, 1000));
+    console.clear();
+    emitter.emit("event", `yers: ${y}, month: ${mt}, days: ${d}, hours: ${h}, mints: ${m}, seconds: ${s}`);
+    await temer();
+  };
+  run();
+}
+
 emitter.on("event", console.log);
-emitter.on("error", console.log);
+emitter.on("end", console.log);
 
 
 temer();
