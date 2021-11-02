@@ -62,7 +62,7 @@ const requests = [
 //fs.ReadStream();
 //fs.createReadStream();
 
-/* const readStream = fs.createReadStream(
+const readStream = fs.createReadStream(
 
     ACCESS_LOG, 
     {
@@ -89,7 +89,7 @@ readStream.on('error', (err) => {
     console.log(err);
 });
 
- */
+
 
 /* const writeStream = fs.createWriteStream(
     ACCESS_LOG,
@@ -97,9 +97,9 @@ readStream.on('error', (err) => {
         encoding: 'utf-8',
         flags: 'a',
     }
-); */
+);
 
-/* requests.forEach(logString => {
+requests.forEach(logString => {
     writeStream.write(logString + `\n`);
 });
 
@@ -107,8 +107,9 @@ writeStream.end(() => {
     console.log('Finished');
 }); */
 
-const payAccount = true;
+const payAccount = false;
 const readStream = fs.createReadStream(ACCESS_LOG);
+//tStream трансформированный(измененный) поток
 const tStream = new Transform({
   transform(chunk, encoding, callback) {
     if (payAccount) this.push(chunk);
@@ -121,6 +122,7 @@ const tStream = new Transform({
     }
   },
 });
+
 readStream
     .pipe(tStream)
     .pipe(process.stdout);
