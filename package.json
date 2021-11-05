@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js",
-    "homework": "node numbers.js"
-
-
+    "start": "node ./Lezione4/cli.js"
+  },
+  "bin": {
+    "reader": "./Lezione4/cli.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,9 @@
   },
   "homepage": "https://github.com/Veroniksa/progect_with_node_18.10.2021#readme",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "yargs": "^17.2.1",
+    "yarn": "^1.22.17"
   }
 }
