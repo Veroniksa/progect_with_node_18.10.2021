@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ?????<script src="https://cdn.socet.io/4.2.0/socet.io.min.js" integrity=""></script>
+    <title>Document</title>
+</head>
+<input id='input'></input>
+<button id='button'></button>
+<div id="message"></div>
+<script>
+    const socket = io('localhost:5555');
+    const messageesBlock = document.querySelector('#messages');
+    const sendBtn = document.querySelector('#button');
+    const input = document.querySelector('#input');
+
+sendBtn.onclick = () => {
+    const data = {
+        message: input.value,
+    }
+
+    socket.emit('client-msg', data);
+
+    input.value = '';
+}
+    socket.on('connect', () => {
+        console.log('connected');//Google console >> network >> WS
+    })
+    socket.on('server-msg', data => {
+messageesBlock.insertAdjacentHTML('afterbegin', <div>${data}</div>)
+})
+</script>
+</body>
+</html>

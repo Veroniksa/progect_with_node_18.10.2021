@@ -1,21 +1,24 @@
 const fs = require("fs");
-const http = require("http");
+const http = require('http');
 const url = require("url");
 const path = require("path");
+
 const cluster = require("cluster");
 const os = require("os");
-const filePath = path.join(__dirname, "./index.html");
-const readStream = fs.createReadStream(filePath);
 
-/*const server = thhp.createServer((req, res) => {
+//const server = http.createServer((req, res) => {
   //res.end("Hello from node.js");
-   console.log('url', req.url);
-  console.log('method', req.method);
-  console.log('headers', req.headers); */
+  /* console.log('url:', req.url);
+  console.log('method:', req.method);
+  console.log('headers:', req.headers); */
 /*   res.setHeader("x-server", "my server");
   res.writeHead(200, "OK", {
-    "castom-header": "test",
-  });*/
+   "castom-header": "test",
+  }); 
+
+
+});
+server.listen(5555);*/
 
 //URL
 /*   if(req.url === './user') {
@@ -25,7 +28,7 @@ const readStream = fs.createReadStream(filePath);
       res.writeHead(404, 'Not found', {
           'castom-header': 'test'
       });
-      res.write('User not found');
+      res.write('User not found')
       res.end();
   }
     */
@@ -62,6 +65,8 @@ console.log(query);*/
     req.end();
 } 
 
+const filePath = path.join(__dirname, "./index.html");
+  const readStream = fs.createReadStream(filePath);
   res.writeHead(200, "OK", {
     "Content-Type": "text/html",
   });
@@ -72,8 +77,10 @@ console.log(query);*/
 server.listen(5555);
 */
 
+
+
 //INSTENS
-if (cluster.isMaster) {
+ if (cluster.isMaster) {
   //cluster.fork();
   console.log(`Master procces ${process.pid} is running...`);
   for (let i = 0; i < os.cpus().length; i++) {
@@ -82,8 +89,7 @@ if (cluster.isMaster) {
   }
 } else {
   console.log(`Worker ${process.pid} is running`);
-  const server = http
-    .createServer((req, res) => {
+  http.createServer((req, res) => {
       const filePath = path.join(__dirname, "./index.html");
       const readStream = fs.createReadStream(filePath);
 
@@ -96,4 +102,4 @@ if (cluster.isMaster) {
       }, 5000);
     })
     .listen(5555);
-}
+  }
