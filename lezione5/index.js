@@ -77,10 +77,23 @@ const filePath = path.join(__dirname, "./index.html");
 server.listen(5555);
 */
 
+http.createServer((req, res) => {
+  if(res.method === "GET"){
+    res.write("This is GET method");
+    res.end();
+  }else {
+    res.writeHead(404, 'Not Allowed', {
+      'my-text': 'Method is not found'
+    });
+    res.end();
+  }
+}).listen(8088);
+
+
 
 
 //INSTENS
- if (cluster.isMaster) {
+/*  if (cluster.isMaster) {
   //cluster.fork();
   console.log(`Master procces ${process.pid} is running...`);
   for (let i = 0; i < os.cpus().length; i++) {
@@ -102,4 +115,4 @@ server.listen(5555);
       }, 5000);
     })
     .listen(5555);
-  }
+  } */

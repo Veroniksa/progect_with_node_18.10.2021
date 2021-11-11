@@ -5,7 +5,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const yargs = require("yargs");
 
-const currentDirectory = process.cwd();
+let currentDirectory = process.cwd();
 
 const options = yargs
 .positional("d", {

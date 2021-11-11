@@ -8,7 +8,7 @@ const path = require("path");
 
   http
     .createServer((req, res) => {
-        const currentDirectory = process.cwd();
+        let currentDirectory = process.cwd();
       const fullPath = path.join(currentDirectory, req.url);
 
       if (!fs.existsSync(fullPath))
