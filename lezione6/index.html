@@ -4,33 +4,131 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    ?????<script src="https://cdn.socet.io/4.2.0/socet.io.min.js" integrity=""></script>
-    <title>Document</title>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+    <title>Socket</title>
 </head>
-<input id='input'></input>
-<button id='button'></button>
-<div id="message"></div>
-<script>
-    const socket = io('localhost:5555');
-    const messageesBlock = document.querySelector('#messages');
-    const sendBtn = document.querySelector('#button');
-    const input = document.querySelector('#input');
+<div id="UserLogin">
+    <input id="user" placeholder="Yuor name"></input>
+    <button id="login">Login</button>
+</div>
 
-sendBtn.onclick = () => {
-    const data = {
-        message: input.value,
+<div id="mesg">
+    <div id="message"></di>
+    <input id='input'></input>
+    <button id='button'>Send</button>
+</div>
+<style>
+    body{
+        width: 1040px;
+    }
+    #UserLogin{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+    #UserLogin input{
+        padding: 10px;
+        border-radius: 10px;
+    }
+    #UserLogin button{
+        padding: 10px;
+        margin-left: -5px;
+        border-radius: 15px;
+    }
+    #mesg{
+    position: fixed;
+    bottom: 0;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+}
+    #mesg input{
+        padding: 10px;
+        border-radius: 10px 0 0 10px;
+    }
+    #mesg button{
+        padding: 10px;
+        margin-left: -5px;
+        border-radius: 0 15px 15px 0;
+    }
+    
+</style>
+<script>
+    //TODO usare il nome come NIK(fatto)
+    //TODO inviare messago a tutti quando si entra un nuovo NIK(fatto)
+    //TODO inviare un message quando uno va fuori(non come dovrebbe)
+    //TODO fare un contatore delle persone collegati(funziona nel console) oppure tutti i nik collegati
+
+
+    const usLog = document.querySelector("#UserLogin");
+    const usName = document.querySelector("#user");
+    const userLogin = document.querySelector('#login');
+    
+    const socket = io('localhost:5555');
+    const mesg = document.querySelector("#mesg");
+    const messageesBlock = document.querySelector("#message");
+    const sendBtn = document.querySelector("#button");
+    const input = document.querySelector("#input");
+    
+    if(!usName == ''){
+        //disattivazione 
+        mesg.style.display="none";
     }
 
-    socket.emit('client-msg', data);
-
-    input.value = '';
-}
-    socket.on('connect', () => {
-        console.log('connected');//Google console >> network >> WS
+    userLogin.addEventListener('click', () => {
+        mesg.style.display="flex";
+        usLog.style.display = 'none';
     })
+
+    userLogin.onclick = () => {
+        const nikName = {
+            name: usName.value,
+            online: usName.name
+        }
+        socket.emit('client-name', nikName);
+    }
+
+    sendBtn.onclick = () => {
+        const data = {
+            name: usName.value,
+            message: input.value,
+        };
+        //console.log(data);
+        socket.emit('client-msg', data);//передача data
+
+        input.value = '';
+    }
+
+    let numUsers = 0;
+    //let online = 0;
+    socket.on('connect', client => {
+        console.log('Connected');
+    });
+    socket.on('login', numUsers =>{
+        ++numUsers
+        //usLog.insertAdjacentHTML('afterend', `Online: ${numUsers} users`)
+    })
+    socket.on('server-name', nikName => {
+        ++numUsers
+        console.log(numUsers);
+        alert(`Si è collegato ${nikName.name}`);
+        usLog.insertAdjacentHTML('beforebegin', `<div>Online: ${nikName.online}</div>`)
+    });
     socket.on('server-msg', data => {
-messageesBlock.insertAdjacentHTML('afterbegin', <div>${data}</div>)
-})
+        messageesBlock.insertAdjacentHTML('beforebegin', `<span>${data.name}:</span><div>${data.message}</div>`);
+    });
+    socket.on('disconnected', ()=> {
+        const nikName = {
+            name: usName.value,
+        }        
+        //numUsers--;
+        alert(`${nikName.name} : fuori`);
+    })
+    /* socket.on('reconnect', () => {
+        alert(`${nikName.name} : si è recollegato`)
+    }) */
 </script>
 </body>
 </html>
