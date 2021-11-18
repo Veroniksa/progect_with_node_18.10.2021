@@ -1,0 +1,22 @@
+{
+  "name": "lezione4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "bin": {
+    "reader": "cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "which": "^2.0.2",
+    "yargs": "^17.2.1",
+    "yarn": "^1.22.17"
+  }
+}
